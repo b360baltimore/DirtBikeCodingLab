@@ -1,0 +1,54 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-rows: max-content 20px auto;
+}
+
+.game-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 16px;
+}
+
+#unityContainer {
+    width: 100%;
+    max-width: 960px;
+    max-height: 600px;
+    /* padding-top: 50%; */
+}
+
+.editor-section {
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.handler {
+    height: 100%;
+    padding: 0;
+    cursor: row-resize;
+    place-items: center;
+    align-items: center;
+    text-align: center;
+}
+
+#shield {
+    display:none;
+    top:0;
+    left:0;
+    width:100%;
+    position:absolute;
+    height:100%;
+    z-index:4;
+}
+
+#container {
+    background-color:#f1f1f1;
+    width:100%;
+}
