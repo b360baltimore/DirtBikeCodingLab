@@ -15,6 +15,7 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="Build/UnityLoader.js"></script>
     <title>B360 Programming Lab</title>
 </head>
 
@@ -22,73 +23,311 @@
 
     <div id="shield"></div>
 
-    <a href="javascript:void(0)" id="dragbar"></a>
+    <!-- <button id="help-button" class="w3-btn-floating"><i class="far fa-question-circle"></i></button> -->
+    <!-- <button id="docs-button" class="w3-btn-floating"><i class="fas fa-book"></i></button> -->
 
-    <div id="container w3-container" class="wrapper">
-        <div class="game-section w3-blue">
-            <div id="unityContainer" class="unityContainer w3-card w3-red"></div>
+    <div id="loading-overlay" class="w3-overlay">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <h2 class="w3-text-white">Loading...</h2>
+    </div>
+
+
+    <div id="tutorialModal" class="w3-modal w3-round-large" style="z-index: 25;">
+        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+            <header class="w3-bar w3-blue">
+                <span onclick="closeTutorialModal()" class="w3-button w3-bar-item w3-right">&times;</span>
+                <h2 class="w3-bar-item">Modal Header</h2>
+            </header>
+
+            <div class="w3-container">
+                <p>Some text..</p>
+                <p>Some text..</p>
+            </div>
+
+            <footer class="w3-container w3-grey">
+                <p>Modal Footer</p>
+            </footer>
+        </div>
+    </div>
+
+    <div id="wipModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
+        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item w3-center">Work In Progress</h2>
+            </header>
+
+            <div class="w3-container" style="align-content: center; text-align: center;">
+                <span class="w3-jumbo w3-padding"><i class="fas fa-tools"></i></span>
+                <p>This function is not supported yet. We are working hard to make it available</p>
+            </div>
+
+            <footer class="w3-bar w3-grey w3-padding">
+                <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-red">Close</button>
+            </footer>
+        </div>
+    </div>
+
+    <div id="saveDriveModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
+        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item w3-center">Save File to Google Drive</h2>
+            </header>
+
+            <div class="w3-container" style="align-content: center; text-align: center;">
+                <!-- <span class="w3-jumbo w3-padding"><i class="fas fa-tools"></i></span> -->
+                <p>
+                    Save your code to your Google Drive.
+                    This requires a Google account and you will be asked
+                    to authorize this game.
+                </p>
+                <button onclick=""><i class="fab fa-google-drive" style="padding-right: 5px;"></i>Save</button>
+            </div>
+
+            <footer class="w3-bar w3-grey w3-padding">
+                <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-red">Close</button>
+            </footer>
+        </div>
+    </div>
+
+    <div id="newScriptModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
+        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item w3-center">Create New Script</h2>
+            </header>
+
+            <div class="w3-container" style="align-content: center; text-align: center;">
+                <form>
+                    <p>Filename: <input id="filename-input" type="text" placeholder="script">.lua</p>
+                </form>
+            </div>
+
+            <footer class="w3-bar w3-grey w3-padding">
+                <button onclick="createNewScript()" class="w3-button w3-round-large w3-left w3-green">Create</button>
+                <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-red">Cancel</button>
+            </footer>
+        </div>
+    </div>
+
+    <div id="container" class="wrapper">
+        <div class="game-section w3-display-container">
+            <div id="unityContainer" class="unityContainer w3-card"></div>
+
+            <div class="w3-display-bottommiddle w3-light-grey"
+                style="z-index: 20; padding:6px; border-radius: 16px 16px 0px 0px; overflow: hidden; ">
+                <div class="w3-bar w3-round-large">
+                    <button id="run-button" class="w3-btn w3-large w3-blue w3-bar-item w3-mobile" onclick="runSimulation()"><i class="fas fa-play-circle"
+                        style="padding-right: 5px;"></i>Run</button>
+
+                <button id="stop-button" class="w3-btn w3-large w3-blue w3-bar-item w3-mobile" onclick="stopSimulation()" disabled><i class="fas fa-stop"
+                        style="padding-right: 5px;"></i>Stop</button>
+
+                <button id="reset-button" class="w3-btn w3-large w3-blue w3-bar-item w3-mobile" onclick="resetSimulation()"><i class="fas fa-undo"
+                        style="padding-right: 5px;"></i>Reset</button>
+                </div>
+
+            </div>
         </div>
 
-        <div id="dragbar" class="handler w3-light-grey"><i class="fas fa-ellipsis-h" style="color: black;"></i></div>
+        <div id="dragbar" class="handler w3-light-grey w3-hover-shadow"><i class="fas fa-ellipsis-h"
+                style="color: black;"></i></div>
 
-        <div class="editor-section w3-padding w3-green">
-            <div class="w3-bar w3-black">
+        <div class="editor-section w3-padding">
+            <div class="w3-bar w3-blue">
+
+                <button class="w3-button w3-blue w3-bar-item" onclick="openModal('newScriptModal');">
+                    <i class="fas fa-plus" style="padding-right: 5px;"></i>New</button>
 
                 <div class="w3-dropdown-hover">
-                    <button class="w3-button w3-black"><i class="fas fa-save" style="padding-right: 5px;"></i>Save</button>
+                    <button class="w3-button w3-blue"><i class="fas fa-save"
+                            style="padding-right: 5px;"></i>Save</button>
                     <div class="w3-dropdown-content w3-bar-block w3-black w3-border" style="z-index: 15;">
-                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Save to Google Drive" onclick=""><i class="fab fa-google-drive" style="padding-right: 5px;"></i>Save to Google Drive</a>
-                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Save to Computer" onclick="saveFile();"><i class="fas fa-hdd" style="padding-right: 5px;"></i>Save to Computer</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Save to Google Drive"
+                            onclick="openModal('wipModal')"><i class="fab fa-google-drive" style="padding-right: 5px;"></i>Save to Google
+                            Drive</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Save to Computer"
+                            onclick="saveFile();"><i class="fas fa-hdd" style="padding-right: 5px;"></i>Save to
+                            Computer</a>
                     </div>
                 </div>
 
 
                 <div class="w3-dropdown-hover">
-                    <button class="w3-button w3-black"><i class="fas fa-upload" style="padding-right: 5px;"></i>Load</button>
+                    <button class="w3-button w3-blue"><i class="fas fa-upload"
+                            style="padding-right: 5px;"></i>Load</button>
                     <div class="w3-dropdown-content w3-bar-block w3-border w3-black" style="z-index: 15;">
-                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Load from Google Drive" onclick=""><i class="fab fa-google-drive" style="padding-right: 5px;"></i>Load from Google Drive</a>
-                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Load from Computer" onclick="openFile();"><i class="fas fa-hdd" style="padding-right: 5px;"></i>Load from Computer</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Load from Google Drive"
+                            onclick="openModal('wipModal')"><i class="fab fa-google-drive" style="padding-right: 5px;"></i>Load from Google
+                            Drive</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0);" title="Load from Computer"
+                            onclick="openFile();"><i class="fas fa-hdd" style="padding-right: 5px;"></i>Load from
+                            Computer</a>
                     </div>
                 </div>
 
                 <span id="scriptFilename" class="w3-bar-item w3-right"></span>
 
             </div>
-            <div id="editor-container" class="editor-container w3-card"></div>
+
+            <div id="editor-container" class="editor-container w3-card"
+                style="overflow: hidden; border-radius: 0px 0px 8px 8px;"></div>
+
+            <div id="editor-overlay">
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                <h2 id="editor-overlayText" class="w3-text-white"></h2>
+            </div>
         </div>
 
 
     </div>
 
+    <script>
+        function runSimulation() {
+            document.dispatchEvent(new Event('simulation-run'));
+            enableEditorOverlay("Running Simulation");
+            disableSimulationButtons();
+        }
+
+        function stopSimulation() {
+            document.dispatchEvent(new Event('simulation-stop'));
+        }
+
+        function resetSimulation() {
+            document.dispatchEvent(new Event('simulation-reset'));
+            enableEditorOverlay("Reseting Simulation");
+            disableSimulationButtons();
+        }
+
+        function disableSimulationButtons() {
+            document.getElementById('run-button').disabled = true;
+            document.getElementById('reset-button').disabled = true;
+            document.getElementById('stop-button').disabled = false;
+        }
+
+        function enableSimulationButtons() {
+            document.getElementById('run-button').disabled = false;
+            document.getElementById('reset-button').disabled = false;
+            document.getElementById('stop-button').disabled = true;
+        }
+
+        document.addEventListener('simulation-run', function() {
+            console.log("Running simulation");
+        });
+
+        document.addEventListener('simulation-reset', function() {
+            console.log("Resetting simulation");
+        });
+
+        document.addEventListener('simulation-stop', function() {
+            console.log("Stopping simulation");
+            document.dispatchEvent(new Event('simulation-ready'));
+        });
+
+        document.addEventListener('simulation-ready', function() {
+            console.log("Simulation ready");
+            enableSimulationButtons();
+            disableEditorOverlay();
+        });
+    </script>
+
+    <script>
+        // Reference to currently active modal
+        let activeModal;
+        const tutorialModal = document.getElementById("tutorialModal");
+        const loadingOverlay = document.getElementById("loading-overlay");
+
+        document.addEventListener('unity-load', function() {
+            hideLoadingOverlay();
+        });
+
+        function showLoadingOverlay() {
+            loadingOverlay.style.display = 'flex';
+        }
+
+        function hideLoadingOverlay() {
+            loadingOverlay.style.display = 'none';
+        }
+
+        function openTutorialModal() {
+            if (activeModal) { closeModal(); }
+            tutorialModal.style.display = 'flex';
+        }
+
+        function closeTutorialModal() {
+            tutorialModal.style.display = 'none';
+        }
+
+        function openModal(id) {
+            if (activeModal) { closeModal(); }
+            activeModal = document.getElementById(id);
+            activeModal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            if (activeModal) {
+                activeModal.style.display = 'none';
+                activeModal = undefined;
+            }
+        }
+    </script>
+
 
 
     <script>
+        let codeMirror;
         let activeScriptName;
 
         initEditor();
+        // enableEditorOverlay("Wait please");
 
         function initEditor() {
-            window.editor = CodeMirror(document.getElementById("editor-container"),
+            codeMirror = CodeMirror(document.getElementById("editor-container"),
                 {
                     lineNumbers: true,
                     mode: 'lua',
                     id: 'code-editor'
                 });
-            window.editor.setSize("100%", "100%");
+            codeMirror.setSize("100%", "100%");
             displayFileName("newScript.lua");
 
-            window.editor.on('change', (event) => {
-                let fwdEvent = new CustomEvent('editor-change', {detail: getCode()});
-                window.dispatchEvent(fwdEvent);
+            codeMirror.on('change', (event) => {
+                let fwdEvent = new CustomEvent('editor-change', { detail: getCode() });
+                document.dispatchEvent(fwdEvent);
             });
         }
 
+        function createNewScript() {
+            let filenameInput = document.getElementById('filename-input');
+            let filename = filenameInput.value;
+            if (filename == undefined || filename.length == 0) {
+                alert("No filename given");
+            } else {
+                filename = filename + '.lua';
+                setCode('');
+                displayFileName(filename);
+                closeModal();
+            }
+        }
+
+        function enableEditorOverlay(text) {
+            document.getElementById('editor-overlay').style.display = 'flex';
+            document.getElementById('editor-overlayText').innerHTML = text;
+        }
+
+        function disableEditorOverlay() {
+            document.getElementById('editor-overlay').style.display = 'none';
+        }
+
         function setCode(text) {
-            window.editor.setValue(text);
+            codeMirror.setValue(text);
         }
 
         function getCode() {
-            return window.editor.getValue().trim();
+            return codeMirror.getValue().trim();
         }
 
         window.addEventListener('open-editor', (event) => {
@@ -122,7 +361,7 @@
 
         function saveFile() {
             let text = getCode();
-            let blob = new Blob([text], {type:"text/lua"});
+            let blob = new Blob([text], { type: "text/lua" });
             let url = URL.createObjectURL(blob);
             let filename = (activeScriptName !== "") ? activeScriptName : "script.lua";
 
@@ -144,16 +383,16 @@
     </script>
 
     <script>
-        // var recaptureInputAndFocus = function () {
-        //     var canvas = document.getElementById("#canvas");
-        //     if (canvas) {
-        //         canvas.setAttribute("tabindex", "1");
-        //         canvas.focus();
-        //     } else
-        //         setTimeout(recaptureInputAndFocus, 100);
-        // }
+        var recaptureInputAndFocus = function () {
+            var canvas = document.getElementById("#canvas");
+            if (canvas) {
+                canvas.setAttribute("tabindex", "1");
+                canvas.focus();
+            } else
+                setTimeout(recaptureInputAndFocus, 100);
+        }
 
-        // recaptureInputAndFocus();
+        recaptureInputAndFocus();
     </script>
 
     <script>
@@ -202,7 +441,7 @@
                 }
             } else {
                 // Portrait
-                width = boundingRect.width  * GAME_VIEW_SCALE
+                width = boundingRect.width * GAME_VIEW_SCALE
                 height = width / GAME_ASPECT_RATIO;
             }
 
@@ -224,7 +463,7 @@
                 }
             } else {
                 // Portrait
-                width = boundingRect.width  * GAME_VIEW_SCALE
+                width = boundingRect.width * GAME_VIEW_SCALE
                 height = width / GAME_ASPECT_RATIO;
             }
 
@@ -289,7 +528,7 @@
                     }
                 } else {
                     // Portrait
-                    width = boundingRect.width  * GAME_VIEW_SCALE
+                    width = boundingRect.width * GAME_VIEW_SCALE
                     height = width / GAME_ASPECT_RATIO;
 
                 }
@@ -379,8 +618,8 @@
         }
     </script>
 
-    <!-- <script src="Build/UnityLoader.js"></script>
-    <script>
+
+    <!-- <script>
         UnityLoader.instantiate("unityContainer", "Build/Build.json");
     </script> -->
 
