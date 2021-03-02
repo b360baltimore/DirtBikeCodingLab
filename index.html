@@ -15,7 +15,7 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="Build/UnityLoader.js"></script>
+
     <title>B360 Programming Lab</title>
 </head>
 
@@ -23,8 +23,13 @@
 
     <div id="shield"></div>
 
-    <!-- <button id="help-button" class="w3-btn-floating"><i class="far fa-question-circle"></i></button> -->
-    <!-- <button id="docs-button" class="w3-btn-floating"><i class="fas fa-book"></i></button> -->
+
+    <div style="position: fixed; left: 10px; top: 10px; z-index: 15;">
+        <button class="w3-button w3-card-4 w3-xlarge w3-circle w3-blue" title="Tutorial" onclick="openModal('tutorialModal')"><i class="far fa-question-circle"></i></button>
+        <button class="w3-button w3-card-4 w3-xlarge w3-circle w3-blue" title="Documentation" onclick="openModal('docsModal')"><i class="fas fa-book"></i></button>
+        <button class="w3-button w3-card-4 w3-xlarge w3-circle w3-blue" title="Import Dirt Bike" onclick="openModal('wipModal')"><i class="fas fa-cube"></i></button>
+    </div>
+
 
     <div id="loading-overlay" class="w3-overlay">
         <div class="lds-ring">
@@ -37,28 +42,192 @@
     </div>
 
 
-    <div id="tutorialModal" class="w3-modal w3-round-large" style="z-index: 25;">
-        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+    <div id="tutorialModal" class="w3-modal w3-round-large" style="z-index: 23; justify-content: center; align-items: center;">
+        <div class="w3-modal-content w3-round-large w3-border tutorialSlide w3-card-4" style="overflow: hidden;">
             <header class="w3-bar w3-blue">
-                <span onclick="closeTutorialModal()" class="w3-button w3-bar-item w3-right">&times;</span>
-                <h2 class="w3-bar-item">Modal Header</h2>
+                <h2 class="w3-bar-item"></h2>
+                <button class="w3-bar-item w3-round-large w3-right w3-button w3-hover-red w3-xlarge" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </header>
+
+            <div class="w3-container" style="align-content: center; text-align: center;">
+                <img src="./assets/b360_logo.png" style="width: 300px; height: 300px;">
+                <p class="w3-xxlarge" style="font-weight: bold;">Dirt Bike Coding Lab</p>
+            </div>
+
+            <footer class="w3-bar w3-light-grey w3-padding">
+                <button onclick="nextSlide()" class="w3-button w3-round-large w3-right w3-blue">Next</button>
+            </footer>
+        </div>
+
+        <div class="w3-modal-content w3-round-large w3-border tutorialSlide w3-card-4" style="overflow: hidden; display: none;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item">How to play:</h2>
+                <button class="w3-bar-item  w3-round-large w3-right w3-button w3-hover-red w3-xlarge" onclick="closeModal()"><i class="fas fa-times"></i></button>
             </header>
 
             <div class="w3-container">
-                <p>Some text..</p>
-                <p>Some text..</p>
+                <h3><strong>What is this?</strong></h3>
+                <p>
+                    The <strong><i>Dirt Bike Coding Lab</i></strong> is
+                    game that allows players to explore programming without
+                    the need to download any software. This lab uses the
+                    <a href="https://www.lua.org/" target="_blank">Lua</a> scripting language.
+                </p>
             </div>
 
-            <footer class="w3-container w3-grey">
-                <p>Modal Footer</p>
+            <footer class="w3-bar w3-light-grey w3-padding">
+                <button onclick="prevSlide()" class="w3-button w3-round-large w3-left w3-blue">Prev</button>
+                <button onclick="nextSlide()" class="w3-button w3-round-large w3-right w3-blue">Next</button>
+            </footer>
+        </div>
+
+        <div class="w3-modal-content w3-round-large w3-border tutorialSlide w3-card-4" style="overflow: hidden; display: none;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item">How do I use it?</h2>
+                <button class="w3-bar-item  w3-round-large w3-right w3-button w3-hover-red w3-xlarge" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </header>
+
+            <div class="w3-container" style="overflow-y: scroll;">
+                <div>
+                    <h3><strong>The Editor</strong></h3>
+                    <img src="./assets/editor.png" class="w3-image" style="padding: 10px;">
+                    <p>
+                        The editor is where you can create, save, load, and edit
+                        code that controls the dirtbike in the game.
+                    </p>
+                    <ul>
+                        <li><strong>New</strong> - Create a new script</li>
+                        <li>
+                            <strong>Save</strong> - Save script to file
+                            <ul>
+                                <li><strong>Save to Google Drive</strong> <i>(Coming Soon)</i></li>
+                                <li><strong>Save to Computer</strong></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Load</strong> - Load previously created scripts
+                            <ul>
+                                <li><strong>Load from Google Drive</strong> <i>(Coming Soon)</i></li>
+                                <li><strong>Load from Computer</strong></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3><strong>The Game</strong></h3>
+                    <img src="./assets/game-view.png" class="w3-image" style="padding: 10px;">
+                    <p>
+                        The game view shows the dirt bike moving around when
+                        your code is running.
+                    </p>
+                </div>
+
+                <div>
+                    <h3><strong>Simulation Buttons</strong></h3>
+                    <img src="./assets/buttons.png" class="w3-image" style="padding: 10px;">
+                    <p>
+                        These buttons control the dirtbike simulation game,
+                        allowing you to start, stop, and reset the simulation.
+                    </p>
+                </div>
+
+                <div>
+                    <div>
+                        <h3><strong>Need the help?</strong></h3>
+                        <div style="display: flex;">
+                            <img src="./assets/tutorial-button.png" class="w3-image" style="padding: 10px;">
+                            <p>Click on this button to bring up this tutorial window.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3><strong>How can I move the bike?</strong></h3>
+                        <div style="display: flex;">
+                            <img src="./assets/docs-button.png" class="w3-image" style="padding: 10px;">
+                            <p>Click on this button to learn about how to move the dirt bike in code</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3><strong>Import your own bike Model</strong></h3>
+                        <div style="display: flex;">
+                            <img src="./assets/import-button.png" class="w3-image" style="padding: 10px;">
+                            <p>Import a dirt bike model into the simulation. <i>(Coming soon)</i></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="w3-bar w3-light-grey w3-padding">
+                <button onclick="prevSlide()" class="w3-button w3-round-large w3-left w3-blue">Prev</button>
+                <button onclick="nextSlide()" class="w3-button w3-round-large w3-right w3-blue">Next</button>
+            </footer>
+        </div>
+
+        <div class="w3-modal-content w3-round-large w3-border tutorialSlide w3-card-4" style="overflow: hidden; display: none;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item">How to play:</h2>
+                <button class="w3-bar-item w3-right w3-round-large w3-button w3-hover-red w3-xlarge" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </header>
+
+            <div class="w3-container" style="overflow-y: scroll;">
+                <h3><strong>Let's Go!</strong></h3>
+                <p>Have fun playing</p>
+            </div>
+
+            <footer class="w3-bar w3-light-grey w3-padding">
+                <button onclick="prevSlide()" class="w3-button w3-round-large w3-left w3-blue">Prev</button>
+                <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-blue">Play</button>
+            </footer>
+        </div>
+    </div>
+
+    <div id="docsModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
+        <div class="w3-modal-content w3-round-large w3-card-4 gui-modal" style="overflow: hidden;">
+            <header class="w3-bar w3-blue">
+                <h2 class="w3-bar-item">Documentation</h2>
+                <button class="w3-bar-item w3-right w3-round-large w3-button w3-hover-red w3-xlarge" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </header>
+
+            <div class="w3-container" style="overflow-y: scroll;">
+                <h3 style="font-weight: bold;">Moving the bike:</h3>
+
+                <p style="font-style: italic;">dirtbike.<strong>Forward(speed, time)</strong></p>
+                <p class="w3-padding">Move the bike forward, given a positive number for the <i>speed</i> and an amount of <i>time</i> to move</p>
+
+                <p style="font-style: italic;">dirtbike.<strong>Reverse(speed, time)</strong></p>
+                <p class="w3-padding">Move the bike backward, given a positive number for the <i>speed</i> and an amount of <i>time</i> to move</p>
+
+                <p style="font-style: italic;">dirtbike.<strong>Move(speed, time)</strong></p>
+                <p class="w3-padding">Move the bike forward or backward, given a positive or negative number for the <i>speed</i> and an amount of <i>time</i> to move</p>
+
+                <h3 style="font-weight: bold;">Turning the bike:</h3>
+
+                <p style="font-style: italic;">dirtbike.<strong>TurnLeft(amount)</strong></p>
+                <p class="w3-padding">Turn the bike to the left by a given amount. The at the most the bike rotates 15 degrees per turn.</p>
+
+                <p style="font-style: italic;">dirtbike.<strong>TurnRight(amount)</strong></p>
+                <p class="w3-padding">Turn the bike to the right by a given amount. The at the most the bike rotates 15 degrees per turn.</p>
+
+
+                <p style="font-style: italic;">dirtbike.<strong>Turn(amount)</strong></p>
+                <p class="w3-padding">Turn the bike to the left or right by a given amount. The at the most the bike rotates 15 degrees per turn.</p>
+
+
+            </div>
+
+            <footer class="w3-bar w3-light-grey w3-padding">
             </footer>
         </div>
     </div>
 
     <div id="wipModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
-        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+        <div class="w3-modal-content w3-round-large w3-card-4" style="overflow: hidden;">
             <header class="w3-bar w3-blue">
                 <h2 class="w3-bar-item w3-center">Work In Progress</h2>
+                <button class="w3-bar-item w3-round-large w3-right w3-button w3-hover-red w3-xlarge" onclick="closeModal()"><i class="fas fa-times"></i></button>
             </header>
 
             <div class="w3-container" style="align-content: center; text-align: center;">
@@ -66,20 +235,18 @@
                 <p>This function is not supported yet. We are working hard to make it available</p>
             </div>
 
-            <footer class="w3-bar w3-grey w3-padding">
-                <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-red">Close</button>
+            <footer class="w3-bar w3-light-grey w3-padding">
             </footer>
         </div>
     </div>
 
     <div id="saveDriveModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
-        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+        <div class="w3-modal-content w3-round-large w3-card-4" style="overflow: hidden;">
             <header class="w3-bar w3-blue">
                 <h2 class="w3-bar-item w3-center">Save File to Google Drive</h2>
             </header>
 
             <div class="w3-container" style="align-content: center; text-align: center;">
-                <!-- <span class="w3-jumbo w3-padding"><i class="fas fa-tools"></i></span> -->
                 <p>
                     Save your code to your Google Drive.
                     This requires a Google account and you will be asked
@@ -88,14 +255,14 @@
                 <button onclick=""><i class="fab fa-google-drive" style="padding-right: 5px;"></i>Save</button>
             </div>
 
-            <footer class="w3-bar w3-grey w3-padding">
+            <footer class="w3-bar w3-light-grey w3-padding">
                 <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-red">Close</button>
             </footer>
         </div>
     </div>
 
     <div id="newScriptModal" class="w3-modal w3-round-large" style="z-index: 25; justify-content: center; align-items: center;">
-        <div class="w3-modal-content w3-round-large" style="overflow: hidden;">
+        <div class="w3-modal-content w3-round-large w3-card-4" style="overflow: hidden;">
             <header class="w3-bar w3-blue">
                 <h2 class="w3-bar-item w3-center">Create New Script</h2>
             </header>
@@ -106,7 +273,7 @@
                 </form>
             </div>
 
-            <footer class="w3-bar w3-grey w3-padding">
+            <footer class="w3-bar w3-light-grey w3-padding">
                 <button onclick="createNewScript()" class="w3-button w3-round-large w3-left w3-green">Create</button>
                 <button onclick="closeModal()" class="w3-button w3-round-large w3-right w3-red">Cancel</button>
             </footer>
@@ -137,7 +304,7 @@
                 style="color: black;"></i></div>
 
         <div class="editor-section w3-padding">
-            <div class="w3-bar w3-blue">
+            <div class="w3-bar w3-blue" style="border-radius: 8px 8px 0px 0px;">
 
                 <button class="w3-button w3-blue w3-bar-item" onclick="openModal('newScriptModal');">
                     <i class="fas fa-plus" style="padding-right: 5px;"></i>New</button>
@@ -198,8 +365,6 @@
 
         function resetSimulation() {
             document.dispatchEvent(new Event('simulation-reset'));
-            enableEditorOverlay("Reseting Simulation");
-            disableSimulationButtons();
         }
 
         function disableSimulationButtons() {
@@ -214,23 +379,11 @@
             document.getElementById('stop-button').disabled = true;
         }
 
-        document.addEventListener('simulation-run', function() {
-            console.log("Running simulation");
-        });
-
-        document.addEventListener('simulation-reset', function() {
-            console.log("Resetting simulation");
-        });
-
-        document.addEventListener('simulation-stop', function() {
-            console.log("Stopping simulation");
-            document.dispatchEvent(new Event('simulation-ready'));
-        });
-
         document.addEventListener('simulation-ready', function() {
             console.log("Simulation ready");
             enableSimulationButtons();
             disableEditorOverlay();
+            hideLoadingOverlay();
         });
     </script>
 
@@ -238,11 +391,44 @@
         // Reference to currently active modal
         let activeModal;
         const tutorialModal = document.getElementById("tutorialModal");
+        let currentTutorialSlide = 0;
+        const tutorialSlides = document.getElementsByClassName("tutorialSlide");
         const loadingOverlay = document.getElementById("loading-overlay");
+
+        openModal('tutorialModal');
+        showLoadingOverlay();
 
         document.addEventListener('unity-load', function() {
             hideLoadingOverlay();
         });
+
+        function openTutorial() {
+            currentTutorialSlide = 0;
+        }
+
+        function nextSlide() {
+            for (let i = 0; i < tutorialSlides.length; i++) {
+                tutorialSlides[i].style.display = "none";
+            }
+
+            currentTutorialSlide = Math.min(tutorialSlides.length - 1, currentTutorialSlide + 1);
+
+            // tablinks = document.getElementsByClassName("tablink");
+
+            tutorialSlides[currentTutorialSlide].style.display = 'grid';
+        }
+
+        function prevSlide() {
+            for (let i = 0; i < tutorialSlides.length; i++) {
+                tutorialSlides[i].style.display = "none";
+            }
+
+            currentTutorialSlide = Math.max(0, currentTutorialSlide - 1);
+
+            // tablinks = document.getElementsByClassName("tablink");
+
+            tutorialSlides[currentTutorialSlide].style.display = 'grid';
+        }
 
         function showLoadingOverlay() {
             loadingOverlay.style.display = 'flex';
@@ -272,6 +458,7 @@
                 activeModal.style.display = 'none';
                 activeModal = undefined;
             }
+            currentTutorialSlide = 0;
         }
     </script>
 
@@ -282,14 +469,19 @@
         let activeScriptName;
 
         initEditor();
-        // enableEditorOverlay("Wait please");
 
         function initEditor() {
             codeMirror = CodeMirror(document.getElementById("editor-container"),
                 {
                     lineNumbers: true,
                     mode: 'lua',
-                    id: 'code-editor'
+                    id: 'code-editor',
+                    value: "-- Write your code here\n"
+                            + "dirtbike.Forward(3.0, 1.0)\n"
+                            + "dirtbike.TurnLeft(1.0)\n"
+                            + "dirtbike.Forward(10, 1.5)\n"
+                            + "dirtbike.TurnLeft(1.0)"
+                            + "dirtbike.Forward(10, 1.5)"
                 });
             codeMirror.setSize("100%", "100%");
             displayFileName("newScript.lua");
@@ -605,23 +797,11 @@
         function resetDriveLoadModal() {
             document.getElementById('driveLoadModal').style.display = 'none'
         }
-
-        // Close the active modal whenever the user clicks outside
-        window.onclick = (event) => {
-            if (event.target == document.getElementById("driveSaveModal")) {
-                driveSaveModal();
-            }
-
-            if (event.target == document.getElementById("driveLoadModal")) {
-                driveLoadModal();
-            }
-        }
     </script>
-
-
-    <!-- <script>
-        UnityLoader.instantiate("unityContainer", "Build/Build.json");
-    </script> -->
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Build.json");
+    </script>
 
 </body>
 

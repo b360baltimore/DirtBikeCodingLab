@@ -54,27 +54,41 @@ html, body {
     width:100%;
 }
 
+.tutorialSlide {
+    height: 550px;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.gui-modal {
+    height: 550px;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
 :focus {
     outline:none;
 }
 
-#help-button {
+/* #help-button {
     position: absolute;
     right: 10;
     top: 10;
     height: 32px;
     width: 32px;
     z-index: 15;
-}
+} */
 
-#docs-button {
+/* #docs-button {
     position: absolute;
     right: 10;
     top: 52;
-    /* height: 32px;
-    width: 32px; */
+    height: 32px;
+    width: 32px;
     z-index: 15;
-}
+} */
 
 #loading-overlay {
     position: absolute; /* Sit on top of the page content */
